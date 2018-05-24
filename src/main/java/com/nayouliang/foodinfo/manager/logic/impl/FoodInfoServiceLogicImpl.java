@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSONObject;
 import com.foodinfo.model.FoodInfo;
 import com.nayouliang.foodinfo.manager.logic.FoodInfoServiceLogic;
 import com.nayouliang.foodinfo.manager.mapper.FoodInfoMapper;
@@ -18,6 +19,13 @@ public class FoodInfoServiceLogicImpl implements FoodInfoServiceLogic {
 	public FoodInfo foodList(Map<String, Object> param) {
 		
 		return foodInfoMapper.selectByPrimaryKey(1);
+	}
+
+	public int addFood(Map<String, Object> param, String data) {
+		
+		FoodInfo foodInfo = JSONObject.parseObject(data, FoodInfo.class);
+		
+		return foodInfoMapper.insert(foodInfo);
 	}
 
 }

@@ -25,12 +25,25 @@ public class FoodInfoServiceImpl implements FoodInfoFacade {
 		APIResult result = new APIResult();
 		
 		Map<String,Object> param = apiRequest.getDataMap();
-		
+		String data  = apiRequest.getData();
 		FoodInfo foodList = foodInfoServiceLogic.foodList(param);
 		
 		result.setData(foodList);
 		result.setStatus(APIStatusEnum.SUCCESS.getValue());
 		
+		return result;
+	}
+
+	public APIResult addFood(APIRequest apiRequest) {
+		APIResult result = new APIResult();
+		
+		Map<String,Object> param = apiRequest.getDataMap();
+		String data  = apiRequest.getData();
+		int num = foodInfoServiceLogic.addFood(param,data);
+		if(num<=0) {
+			return new APIResult(APIStatusEnum.FAIL.getValue(),APIStatusEnum.FAIL.getLabel());
+		}
+		result.setStatus(APIStatusEnum.SUCCESS.getValue());
 		return result;
 	}
 	

@@ -14,4 +14,6 @@ public interface FoodInfoServiceLogic {
 	 */
 	FoodInfo foodList(Map<String, Object> param);
 
+	int addFood(Map<String, Object> param, String data);
+
 }
