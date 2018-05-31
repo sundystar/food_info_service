@@ -1,5 +1,6 @@
 package com.nayouliang.foodinfo.manager.logic.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,8 @@ public class FoodInfoServiceLogicImpl implements FoodInfoServiceLogic {
 	public int addFood(Map<String, Object> param, String data) {
 		
 		FoodInfo foodInfo = JSONObject.parseObject(data, FoodInfo.class);
-		
+		foodInfo.setCreateDate(new Date());
+		foodInfo.setUserId("userId");
 		return foodInfoMapper.insert(foodInfo);
 	}
 

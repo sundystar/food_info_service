@@ -12,6 +12,7 @@ import com.foodinfo.enums.APIStatusEnum;
 import com.foodinfo.facade.FoodInfoFacade;
 import com.foodinfo.model.FoodInfo;
 import com.nayouliang.foodinfo.manager.logic.FoodInfoServiceLogic;
+import com.nayouliang.redis.RedisUtil;
 
 @Service("foodInfoFacade")
 public class FoodInfoServiceImpl implements FoodInfoFacade {
@@ -26,7 +27,14 @@ public class FoodInfoServiceImpl implements FoodInfoFacade {
 		
 		Map<String,Object> param = apiRequest.getDataMap();
 		String data  = apiRequest.getData();
-		FoodInfo foodList = foodInfoServiceLogic.foodList(param);
+		FoodInfo foodList = null;;
+		if(RedisUtil.existsObject("sly")) {
+			System.err.println("----------");
+			foodList = (FoodInfo) RedisUtil.getObject("sly");
+		}else {
+			foodList = foodInfoServiceLogic.foodList(param);
+			RedisUtil.setObject("sly", foodList);
+		} 
 		
 		result.setData(foodList);
 		result.setStatus(APIStatusEnum.SUCCESS.getValue());
@@ -44,6 +52,7 @@ public class FoodInfoServiceImpl implements FoodInfoFacade {
 			return new APIResult(APIStatusEnum.FAIL.getValue(),APIStatusEnum.FAIL.getLabel());
 		}
 		result.setStatus(APIStatusEnum.SUCCESS.getValue());
+		
 		return result;
 	}
 	
