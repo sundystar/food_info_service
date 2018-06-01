@@ -27,14 +27,7 @@ public class FoodInfoServiceImpl implements FoodInfoFacade {
 		
 		Map<String,Object> param = apiRequest.getDataMap();
 		String data  = apiRequest.getData();
-		FoodInfo foodList = null;;
-		if(RedisUtil.existsObject("sly")) {
-			System.err.println("----------");
-			foodList = (FoodInfo) RedisUtil.getObject("sly");
-		}else {
-			foodList = foodInfoServiceLogic.foodList(param);
-			RedisUtil.setObject("sly", foodList);
-		} 
+		FoodInfo foodList = foodInfoServiceLogic.foodList(param);
 		
 		result.setData(foodList);
 		result.setStatus(APIStatusEnum.SUCCESS.getValue());
